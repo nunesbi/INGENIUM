@@ -1,0 +1,488 @@
+Você é um Senior Product Architect, UX Strategist, AI Engineer, Fintech SaaS Specialist e Real Estate Infrastructure Designer.
+
+Sua missão é analisar e EVOLUIR a plataforma já existente:
+
+https://ingeniumlink.replit.app/
+
+A plataforma já possui MVP funcional, interface moderna e sistema inicial de IA/matching.
+
+NÃO quero criar uma nova plataforma do zero.
+
+Quero transformar o que já existe em uma infraestrutura institucional inteligente de crédito imobiliário, governança e underwriting focada em pequenas e médias incorporadoras brasileiras.
+
+==================================================
+CONTEXTO DO PRODUTO
+==================================================
+
+A Ingenium conecta:
+
+- pequenas incorporadoras
+- médias incorporadoras
+- SPEs
+- operações imobiliárias
+- fundos imobiliários
+- fundos de CRI
+- investidores
+- family offices
+- securitizadoras
+- capital privado
+
+O foco principal deve ser:
+
+- residencial vertical
+- incorporadoras órfãs de crédito
+- funding para desenvolvimento
+- crédito estruturado
+- governança
+- underwriting
+- inteligência de dados
+
+NÃO focar em:
+- galpões logísticos
+- lajes corporativas
+- ativos institucionais gigantes
+
+==================================================
+PROBLEMA DE MERCADO
+==================================================
+
+Existe um problema estrutural enorme no mercado:
+
+- pequenas e médias incorporadoras têm pouco acesso a capital
+- bancos tradicionais estão reduzindo funding
+- fundos têm dificuldade de originar operações boas
+- governança é baixa
+- dados são desorganizados
+- análise é extremamente manual
+- underwriting é caro e lento
+- discovery entre incorporadores e fundos é ineficiente
+- existe descasamento entre quando o incorporador precisa de capital e quando fundos normalmente entram
+
+A plataforma deve resolver isso.
+
+==================================================
+OBJETIVO PRINCIPAL
+==================================================
+
+Transformar a Ingenium em:
+
+- infraestrutura inteligente de crédito imobiliário
+- motor de underwriting
+- sistema de governança
+- camada de inteligência para fundos
+- marketplace institucional de capital
+- sistema de matching contextual entre operações e capital
+
+A plataforma NÃO deve parecer:
+- um CRM
+- um portal de upload
+- um data room comum
+
+Ela deve parecer:
+- software institucional
+- Bloomberg/Blackstone style
+- infraestrutura financeira imobiliária
+- plataforma de inteligência de crédito
+
+==================================================
+INTELIGÊNCIA DE FUNDOS (PRIORIDADE MÁXIMA)
+==================================================
+
+NÃO quero criar manualmente um banco de dados de fundos ou incorporadoras.
+
+Quero que a plataforma encontre, leia, interprete, estruture e atualize automaticamente informações públicas e confiáveis sobre FIIs, fundos e gestores.
+
+A IA deve criar inteligência automaticamente usando fontes públicas.
+
+==================================================
+FONTES PRINCIPAIS (OBRIGATÓRIAS)
+==================================================
+
+# 1. RELATÓRIOS GERENCIAIS
+
+Quase todos os FIIs publicam relatórios mensais.
+
+A IA deve:
+- encontrar automaticamente os relatórios
+- baixar PDFs
+- fazer parsing
+- aplicar OCR quando necessário
+- extrair informações estratégicas
+- transformar texto em dados estruturados
+
+Extrair:
+- perfil de risco
+- estratégia do fundo
+- foco em renda ou crescimento
+- visão do gestor
+- perfil de cotista
+- preferência de operação
+- comportamento de alocação
+- perfil de volatilidade
+- foco em desenvolvimento ou renda
+- perfil de crédito
+
+Detectar frases como:
+- “cotista de longo prazo”
+- “geração previsível de renda”
+- “estratégia ativa”
+- “alocação oportunística”
+- “preservação de capital”
+- “operações estruturadas”
+- “high yield”
+- “baixo risco”
+- “perfil conservador”
+- “desenvolvimento imobiliário”
+
+==================================================
+# 2. PROSPECTOS DE OFERTA
+==================================================
+
+A IA deve encontrar prospectos de:
+- IPOs
+- emissões
+- ofertas subsequentes
+
+Extrair:
+- público-alvo
+- perfil esperado
+- investidor qualificado
+- fatores de risco
+- tese do fundo
+- restrições
+- estrutura da oferta
+- estratégia de alocação
+
+==================================================
+# 3. BASE DE COTISTAS
+==================================================
+
+Quando disponível, extrair:
+- percentual institucional
+- percentual pessoa física
+- estrangeiros
+- número de cotistas
+- concentração
+
+Objetivo:
+inferir o perfil do fundo e do gestor.
+
+==================================================
+OBJETIVO DA IA
+==================================================
+
+A IA NÃO deve apenas armazenar texto.
+
+Ela deve:
+- interpretar contexto
+- inferir comportamento do gestor
+- classificar o fundo
+- estruturar dados automaticamente
+- gerar perfil do fundo
+- gerar score
+- gerar tags inteligentes
+- gerar aderência contextual
+- entender tese
+- entender risco
+- entender estágio ideal da operação
+
+==================================================
+ESTRUTURA FINAL DO PERFIL DO FUNDO
+==================================================
+
+Cada fundo deve possuir:
+
+# Informações básicas
+- nome
+- ticker
+- gestor
+- segmento
+- patrimônio
+- liquidez
+
+# Estratégia inferida
+- conservador/agressivo
+- renda/crescimento
+- ativo/passivo
+- desenvolvimento/renda
+- equity/dívida
+
+# Perfil de operação
+- estágio ideal
+- tipo de operação
+- ticket estimado
+- geografia
+- preferência de garantias
+- apetite de risco
+
+# Perfil do cotista
+- institucional
+- varejo
+- sofisticado
+- longo prazo
+- renda mensal
+- ganho de capital
+
+# Inteligência contextual
+- palavras-chave recorrentes
+- tese predominante
+- comportamento histórico
+- compatibilidade com operações
+
+==================================================
+MATCHMAKING E IA
+==================================================
+
+A IA atual da plataforma precisa evoluir muito.
+
+Problemas atuais:
+- Semantic Similarity baixa
+- Thesis vs Description alignment ruim
+- matching muito textual/genérico
+- pouco entendimento financeiro/contextual
+
+Melhorar radicalmente:
+
+- embeddings
+- semantic search
+- vector database
+- ranking engine
+- NLP financeiro
+- contextual understanding
+- recommendation system
+
+O matching NÃO deve funcionar apenas por similaridade textual.
+
+Ele deve considerar:
+- tese do fundo
+- comportamento do gestor
+- perfil do cotista
+- estágio da operação
+- risco
+- governança
+- tipo de funding
+- perfil da incorporadora
+- garantias
+- equity vs dívida
+- desenvolvimento vs renda
+
+Criar:
+- score de compatibilidade
+- justificativa do match
+- probabilidade de aprovação
+- aderência à tese
+- alertas de incompatibilidade
+- explicação automática
+
+==================================================
+CORREÇÃO E QUALIDADE DOS DADOS
+==================================================
+
+A IA deve validar e corrigir os dados antes de salvar no banco.
+
+Adicionar:
+- confidence score
+- deduplicação
+- normalização
+- limpeza automática
+- validação cruzada
+- detecção de inconsistências
+- enrichment pipeline
+
+==================================================
+CHECK DOCUMENTAL
+==================================================
+
+O sistema documental atual precisa melhorar muito.
+
+Melhorar:
+- OCR
+- parsing
+- classificação documental
+- leitura jurídica
+- extração inteligente
+- checklist automático
+- detecção de documento inválido
+- detecção de ausência documental
+
+Criar:
+- compliance score
+- readiness score
+- status documental
+- pendências automáticas
+
+==================================================
+ONBOARDING E INPUT DE DADOS
+==================================================
+
+Hoje o fluxo parece muito orientado a upload.
+
+Modificar completamente.
+
+O fluxo deve começar com estruturação inteligente da operação.
+
+ANTES dos uploads, criar formulários estruturados para:
+
+- dados da SPE
+- estrutura societária
+- patrimônio de afetação
+- status do terreno
+- equity aportado
+- necessidade de captação
+- exposição de caixa
+- cronograma
+- VGV
+- percentual vendido
+- passivos
+- garantias
+- recebíveis
+- licenciamento
+
+Esses dados devem alimentar:
+- underwriting
+- score
+- matching
+- compliance
+- análise preliminar
+
+==================================================
+LOGIN E AUTENTICAÇÃO
+==================================================
+
+Melhorar autenticação da plataforma.
+
+Adicionar:
+- login Google
+- login Microsoft
+- login Apple
+- recuperação de senha
+- autenticação segura
+- JWT/session management
+- RBAC/permissões
+
+Criar perfis:
+- incorporador
+- fundo
+- investidor
+- administrador
+
+==================================================
+UX/UI
+==================================================
+
+Melhorar totalmente o visual da Ingenium.
+
+Quero:
+- institutional fintech feel
+- clean
+- premium
+- minimalista
+- sofisticado
+- extremamente profissional
+
+Melhorar:
+- dashboards
+- formulários
+- visualização de risco
+- visualização de matching
+- status operacional
+- experiência mobile
+
+Adicionar:
+- favicon/logo na aba
+- skeleton loading
+- animações suaves
+- empty states
+- loading institucional
+- visual Bloomberg/Blackstone
+
+==================================================
+GOVERNANÇA E LIFE CYCLE
+==================================================
+
+A plataforma NÃO deve parar após o match.
+
+Adicionar:
+- dashboard da SPE
+- acompanhamento contínuo
+- governança
+- atualização financeira
+- acompanhamento da obra
+- relatórios automáticos
+- central documental
+- reporting para investidores
+
+Objetivo:
+- retenção
+- receita recorrente
+- relacionamento contínuo
+
+==================================================
+ARQUITETURA E ESCALABILIDADE
+==================================================
+
+Reestruturar arquitetura da Ingenium para escalar.
+
+Separar:
+- frontend
+- backend
+- IA
+- banco de dados
+- workers
+- processamento assíncrono
+
+Adicionar:
+- filas
+- cache
+- logs
+- monitoramento
+- observabilidade
+- processamento paralelo
+
+==================================================
+IMPORTANTE
+==================================================
+
+NÃO quero apenas sugestões teóricas.
+
+Quero implementação prática diretamente na plataforma existente.
+
+Analise a estrutura atual da Ingenium e:
+- modifique componentes existentes
+- melhore a arquitetura atual
+- reutilize o máximo possível do código existente
+- implemente melhorias progressivamente
+- preserve o design system atual
+- mantenha compatibilidade com a base existente
+
+Priorize:
+1. melhorias de matching
+2. inteligência de fundos
+3. extração de dados
+4. underwriting
+5. UX institucional
+6. governança
+7. onboarding inteligente
+
+Evite reconstruir toda a aplicação do zero.
+
+==================================================
+O QUE VOCÊ DEVE ENTREGAR
+==================================================
+
+1. Analisar profundamente a plataforma atual
+2. Identificar falhas críticas
+3. Implementar melhorias prioritárias
+4. Melhorar matching
+5. Melhorar IA
+6. Melhorar onboarding
+7. Melhorar underwriting
+8. Melhorar UX/UI
+9. Melhorar governança
+10. Melhorar estrutura de dados
+11. Melhorar parsing documental
+12. Melhorar contextualização dos fundos
+13. Melhorar score de aderência
+14. Transformar a Ingenium em uma startup institucional de infraestrutura imobiliária e crédito estruturado
+
+Quero respostas extremamente profundas, técnicas, estratégicas e profissionais.
