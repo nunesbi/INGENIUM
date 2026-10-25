@@ -1,0 +1,319 @@
+Você é um Senior Product Strategist, UX Architect, SaaS Designer e AI Product Engineer especializado em:
+
+- real estate
+- crédito estruturado
+- marketplaces B2B
+- fintechs
+- incorporadoras
+- SaaS institucional
+- underwriting imobiliário
+
+Sua missão é EVOLUIR a plataforma existente:
+
+https://ingeniumlink.replit.app/
+
+NÃO quero reconstruir o sistema do zero.
+
+Quero evoluir a Ingenium para se tornar a principal infraestrutura digital de governança, underwriting e captação para PEQUENAS E MÉDIAS INCORPORADORAS BRASILEIRAS.
+
+==================================================
+MUDANÇA ESTRATÉGICA MAIS IMPORTANTE
+==================================================
+
+A plataforma atualmente parece muito orientada ao FUNDO.
+
+Isso está errado.
+
+O foco principal da Ingenium deve ser o INCORPORADOR/EMPREENDEDOR.
+
+Os fundos nós mesmos iremos cadastrar manualmente como startup.
+
+Portanto:
+
+- o onboarding
+- o UX
+- a comunicação
+- o produto
+- os dashboards
+- o fluxo
+- os formulários
+- o posicionamento
+
+devem ser totalmente orientados ao INCORPORADOR.
+
+==================================================
+POSICIONAMENTO CORRETO
+==================================================
+
+A Ingenium NÃO deve parecer:
+- marketplace de fundos
+- portal de FIIs
+- plataforma para investidores
+
+Ela deve parecer:
+- infraestrutura de captação para incorporadores
+- sistema de governança imobiliária
+- underwriting-as-a-service
+- inteligência para incorporadoras
+- camada institucional para preparação de funding
+
+==================================================
+OBJETIVO PRINCIPAL
+==================================================
+
+A plataforma deve ajudar incorporadores a:
+
+- organizar operações
+- estruturar governança
+- preparar captação
+- melhorar underwriting
+- reduzir risco percebido
+- aumentar chance de funding
+- profissionalizar apresentação
+- centralizar documentos
+- estruturar SPEs
+- gerar credibilidade institucional
+
+==================================================
+BANCO DE DADOS REGISTRADO
+==================================================
+
+Adicionar e destacar no banco de dados registrado da plataforma:
+
+- +100 incorporadores cadastrados
+- +100 operações registradas
+- +100 empreendedores monitorados
+
+NÃO adicionar isso apenas como marketing na homepage.
+
+Essas informações devem aparecer:
+- dentro da plataforma
+- nos dashboards
+- nas telas de database/network
+- nas áreas de inteligência
+- na percepção de densidade da rede
+
+O objetivo é criar:
+- prova social
+- percepção de rede
+- inteligência proprietária
+- sensação de ecossistema ativo
+
+==================================================
+FOCO NO EMPREENDEDOR (E NÃO NA EMPRESA)
+==================================================
+
+A parte de chat da plataforma atualmente parece corporativa demais.
+
+Modificar para parecer:
+- relacionamento com empreendedor
+- assistente estratégico
+- advisor inteligente
+- copilot imobiliário
+
+O chat deve ser orientado à pessoa/empreendedor.
+
+Não à empresa fria.
+
+O tom deve parecer:
+- próximo
+- estratégico
+- institucional
+- consultivo
+
+O chat deve:
+- ajudar o incorporador
+- explicar riscos
+- sugerir melhorias
+- apontar pendências
+- orientar captação
+- orientar governança
+- orientar underwriting
+
+==================================================
+UX/UI
+==================================================
+
+Melhorar o produto para parecer:
+
+- fintech institucional
+- software de crédito estruturado
+- underwriting platform
+- intelligence platform
+
+Mas mantendo:
+- simplicidade
+- clareza
+- onboarding intuitivo
+- linguagem menos “mercado financeiro pesado”
+
+==================================================
+ONBOARDING
+==================================================
+
+O onboarding deve parecer:
+“vamos estruturar sua operação”
+
+E NÃO:
+“suba documentos”.
+
+Adicionar etapas inteligentes:
+
+1. Dados do empreendedor
+2. Histórico da incorporadora
+3. Dados da SPE
+4. Estrutura da operação
+5. Necessidade de funding
+6. Governança
+7. Documentação
+
+==================================================
+DADOS PRIORITÁRIOS
+==================================================
+
+Antes dos uploads, coletar:
+
+- estágio do projeto
+- VGV
+- percentual vendido
+- estrutura societária
+- patrimônio de afetação
+- necessidade de capital
+- cronograma
+- passivos
+- garantias
+- licenciamento
+- exposição de caixa
+- histórico da incorporadora
+
+==================================================
+IA E MATCHING
+==================================================
+
+O matching deve continuar existindo.
+
+Mas o foco agora é:
+
+“como tornar a operação investível”.
+
+A IA deve:
+- ajudar o incorporador
+- melhorar a apresentação da operação
+- identificar fragilidades
+- sugerir ajustes
+- gerar score
+- explicar riscos
+- mostrar readiness para funding
+
+==================================================
+MELHORIAS DE IA
+==================================================
+
+Problemas atuais:
+- Semantic Similarity baixa
+- Thesis vs Description alignment ruim
+- pouco entendimento contextual
+
+Melhorar:
+- embeddings
+- NLP financeiro
+- contextual understanding
+- ranking inteligente
+- vector search
+
+==================================================
+CHECK DOCUMENTAL
+==================================================
+
+O sistema documental precisa melhorar.
+
+Adicionar:
+- OCR
+- parsing
+- checklist automático
+- compliance score
+- readiness score
+- pendências automáticas
+
+==================================================
+LOGIN E AUTENTICAÇÃO
+==================================================
+
+Adicionar:
+- login Google
+- login Microsoft
+- login Apple
+- recuperação de senha
+- JWT/session management
+- RBAC
+
+==================================================
+VISUAL E PERCEPÇÃO
+==================================================
+
+A Ingenium deve parecer:
+
+- startup séria
+- infraestrutura institucional
+- plataforma de crédito
+- tecnologia para incorporadores
+
+E NÃO:
+- plataforma genérica
+- CRM comum
+- dashboard de upload
+
+==================================================
+GOVERNANÇA E LIFE CYCLE
+==================================================
+
+A plataforma deve continuar após o funding.
+
+Adicionar:
+- dashboard da SPE
+- acompanhamento da obra
+- central documental
+- atualização financeira
+- relatórios automáticos
+- governança contínua
+
+==================================================
+IMPORTANTE
+==================================================
+
+NÃO quero apenas sugestões.
+
+Quero:
+- implementação prática
+- mudanças reais na plataforma existente
+- melhoria dos componentes atuais
+- reaproveitamento do código existente
+- preservação da estrutura atual
+
+==================================================
+PRIORIDADES
+==================================================
+
+1. foco total no incorporador
+2. melhorar onboarding
+3. melhorar IA
+4. melhorar readiness para funding
+5. melhorar percepção institucional
+6. melhorar UX
+7. melhorar governança
+8. melhorar chat do empreendedor
+9. melhorar contextualização
+10. melhorar extração documental
+
+==================================================
+OBJETIVO FINAL
+==================================================
+
+Transformar a Ingenium na principal plataforma brasileira de:
+
+- preparação para funding
+- underwriting imobiliário
+- governança para incorporadoras
+- inteligência para captação
+- readiness institucional
+- organização de operações imobiliárias

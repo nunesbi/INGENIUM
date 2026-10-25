@@ -1,0 +1,24 @@
+{
+  "name": "@workspace/scripts",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "hello": "tsx ./src/hello.ts",
+    "seed-network": "tsx ./src/seed-network.ts",
+    "seed-funds-cvm": "tsx ./src/seed-funds-cvm.ts",
+    "backfill-relatorios": "tsx ./src/backfill-relatorios.ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "devDependencies": {
+    "@types/adm-zip": "^0.5.8",
+    "@types/node": "catalog:",
+    "tsx": "catalog:"
+  },
+  "dependencies": {
+    "@workspace/db": "workspace:*",
+    "adm-zip": "^0.5.17",
+    "drizzle-orm": "catalog:",
+    "iconv-lite": "^0.7.2"
+  }
+}

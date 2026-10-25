@@ -1,0 +1,14 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "TJ9G3hg1YuhjRwNCZvl8r"
+uri = "file://exports/ingenium.zip"
+type = "unspecified"
+title = "Ingenium - código completo (708 KB) - clique para baixar"
+
+[[outputs]]
+id = "jX_GQlil4ybOcx_ZMKVR8"
+uri = "file://exports/ingenium-20260527.zip"
+type = "unspecified"
+title = "Ingenium — projeto completo (zip)"

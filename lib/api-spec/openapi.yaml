@@ -1,0 +1,1541 @@
+openapi: 3.1.0
+info:
+  # Do not change the title, if the title changes, the import paths will be broken
+  title: Api
+  version: 0.1.0
+  description: MatchFund - Real Estate Matchmaking Platform API
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+  - name: funds
+    description: Investment fund operations
+  - name: assets
+    description: Real estate asset/entrepreneur operations
+  - name: matches
+    description: Matching and compatibility operations
+  - name: dashboard
+    description: Dashboard and analytics operations
+  - name: chat
+    description: Chat rooms and messaging
+  - name: storage
+    description: Object storage upload and serving endpoints
+  - name: Auth
+    description: Browser and mobile authentication endpoints.
+
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      description: Returns server health status
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+
+  # ─── FUNDS ────────────────────────────────────────────────────────────────
+  /funds:
+    get:
+      operationId: listFunds
+      tags: [funds]
+      summary: List all funds
+      responses:
+        "200":
+          description: List of funds
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Fund"
+    post:
+      operationId: createFund
+      tags: [funds]
+      summary: Create a new fund
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FundInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Fund"
+        "400":
+          description: Validation error
+
+  /funds/{id}:
+    get:
+      operationId: getFund
+      tags: [funds]
+      summary: Get a fund by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Fund
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Fund"
+        "404":
+          description: Not found
+    patch:
+      operationId: updateFund
+      tags: [funds]
+      summary: Update a fund
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FundPatch"
+      responses:
+        "200":
+          description: Updated fund
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Fund"
+        "404":
+          description: Not found
+    delete:
+      operationId: deleteFund
+      tags: [funds]
+      summary: Delete a fund
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+        "404":
+          description: Not found
+
+  /funds/{id}/public-data:
+    get:
+      operationId: getFundPublicData
+      tags: [funds]
+      summary: Public data (CVM metrics, qualitative profile, offerings) for a fund
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          description: Public data bundle
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/FundPublicData" }
+
+  /funds/{id}/extract-profile:
+    post:
+      operationId: extractFundProfile
+      tags: [funds]
+      summary: Extract qualitative profile from a relatório gerencial PDF using AI
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/ExtractProfileInput" }
+      responses:
+        "200":
+          description: Extracted profile
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ExtractProfileResponse" }
+
+  /funds/{id}/discover-relatorio:
+    post:
+      operationId: discoverFundRelatorio
+      tags: [funds]
+      summary: Auto-discover the most recent Relatório Gerencial PDF via CVM Fundos.NET
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          description: Discovered document (and persisted on the fund)
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/DiscoverRelatorioResponse" }
+        "404":
+          description: No Relatório Gerencial found on FNET for this CNPJ
+
+  /funds/sync:
+    post:
+      operationId: syncFundsFromCvm
+      tags: [funds]
+      summary: Trigger CVM monthly sync for all funds with CNPJ
+      responses:
+        "200":
+          description: Sync result
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/SyncResult" }
+
+  /funds/sync/status:
+    get:
+      operationId: getFundSyncStatus
+      tags: [funds]
+      summary: Recent sync runs and tracked funds
+      responses:
+        "200":
+          description: Sync status
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/SyncStatus" }
+
+  # ─── ASSETS ───────────────────────────────────────────────────────────────
+  /assets:
+    get:
+      operationId: listAssets
+      tags: [assets]
+      summary: List all assets
+      responses:
+        "200":
+          description: List of assets
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Asset"
+    post:
+      operationId: createAsset
+      tags: [assets]
+      summary: Create a new asset
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AssetInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Asset"
+        "400":
+          description: Validation error
+
+  /assets/{id}:
+    get:
+      operationId: getAsset
+      tags: [assets]
+      summary: Get an asset by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Asset
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Asset"
+        "404":
+          description: Not found
+    patch:
+      operationId: updateAsset
+      tags: [assets]
+      summary: Update an asset
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AssetPatch"
+      responses:
+        "200":
+          description: Updated asset
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Asset"
+        "404":
+          description: Not found
+    delete:
+      operationId: deleteAsset
+      tags: [assets]
+      summary: Delete an asset
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+        "404":
+          description: Not found
+
+  /assets/{id}/copilot-suggestions:
+    post:
+      operationId: getAssetCopilotSuggestions
+      tags: [assets]
+      summary: Sugestões IA acionáveis para tornar a operação investível
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          description: Sugestões geradas
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CopilotSuggestionsResult"
+        "404":
+          description: Asset not found
+
+  /assets/{id}/underwriting:
+    get:
+      operationId: getAssetUnderwriting
+      tags: [assets]
+      summary: Compute underwriting readiness and compliance for an asset
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Underwriting result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnderwritingResult"
+        "404":
+          description: Asset not found
+
+  # ─── MATCHES ──────────────────────────────────────────────────────────────
+  /matches:
+    get:
+      operationId: listMatches
+      tags: [matches]
+      summary: List all matches
+      responses:
+        "200":
+          description: List of matches
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Match"
+
+  /matches/run:
+    post:
+      operationId: runMatching
+      tags: [matches]
+      summary: Run the matching engine for an asset
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MatchRequest"
+      responses:
+        "200":
+          description: Matching results with scores
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Match"
+        "404":
+          description: Asset not found
+
+  /matches/asset/{assetId}:
+    get:
+      operationId: getMatchesForAsset
+      tags: [matches]
+      summary: Get all matches for a specific asset
+      parameters:
+        - name: assetId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Matches for asset
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Match"
+
+  /matches/fund/{fundId}:
+    get:
+      operationId: getMatchesForFund
+      tags: [matches]
+      summary: Get all matches for a specific fund
+      parameters:
+        - name: fundId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Matches for fund
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Match"
+
+  /matches/{id}:
+    get:
+      operationId: getMatch
+      tags: [matches]
+      summary: Get a match by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Match detail
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MatchDetail"
+        "404":
+          description: Not found
+
+  # ─── DASHBOARD ────────────────────────────────────────────────────────────
+  /dashboard/stats:
+    get:
+      operationId: getDashboardStats
+      tags: [dashboard]
+      summary: Get platform overview stats
+      responses:
+        "200":
+          description: Dashboard statistics
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DashboardStats"
+
+  /dashboard/top-matches:
+    get:
+      operationId: getTopMatches
+      tags: [dashboard]
+      summary: Get top compatibility matches across the platform
+      responses:
+        "200":
+          description: Top matches
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Match"
+
+  /dashboard/recent-activity:
+    get:
+      operationId: getRecentActivity
+      tags: [dashboard]
+      summary: Get recent platform activity feed
+      responses:
+        "200":
+          description: Recent activity
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ActivityItem"
+
+  /dashboard/score-distribution:
+    get:
+      operationId: getScoreDistribution
+      tags: [dashboard]
+      summary: Get distribution of match scores
+      responses:
+        "200":
+          description: Score distribution buckets
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ScoreBucket"
+
+  # ─── NETWORK ──────────────────────────────────────────────────────────────
+  /network/summary:
+    get:
+      operationId: getNetworkSummary
+      tags: [network]
+      summary: Densidade da rede Ingenium (incorporadoras + empreendedores + operações)
+      responses:
+        "200":
+          description: Network summary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NetworkSummary"
+
+  /network/incorporadoras:
+    get:
+      operationId: listIncorporadoras
+      tags: [network]
+      summary: Lista de incorporadoras cadastradas
+      responses:
+        "200":
+          description: Incorporadoras
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Incorporadora"
+
+  /network/empreendedores:
+    get:
+      operationId: listEmpreendedores
+      tags: [network]
+      summary: Lista de empreendedores monitorados
+      responses:
+        "200":
+          description: Empreendedores
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Empreendedor"
+
+  # ─── CHAT ─────────────────────────────────────────────────────────────────
+  /chat/rooms:
+    get:
+      operationId: listChatRooms
+      tags: [chat]
+      summary: List all chat rooms
+      responses:
+        "200":
+          description: List of chat rooms
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ChatRoom"
+    post:
+      operationId: createChatRoom
+      tags: [chat]
+      summary: Create a chat room (optionally linked to a match)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ChatRoomInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChatRoom"
+
+  /chat/rooms/{roomId}:
+    get:
+      operationId: getChatRoom
+      tags: [chat]
+      summary: Get a chat room with its messages
+      parameters:
+        - name: roomId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Chat room with messages
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChatRoomDetail"
+        "404":
+          description: Not found
+
+  /chat/rooms/{roomId}/messages:
+    post:
+      operationId: sendMessage
+      tags: [chat]
+      summary: Send a message (text or file attachment)
+      parameters:
+        - name: roomId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ChatMessageInput"
+      responses:
+        "201":
+          description: Message sent
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChatMessage"
+        "404":
+          description: Room not found
+
+  /chat/rooms/{roomId}/ai-reply:
+    post:
+      operationId: aiReply
+      tags: [chat]
+      summary: Ask the AI assistant to reply in a chat room
+      parameters:
+        - name: roomId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AiReplyInput"
+      responses:
+        "201":
+          description: AI message created and saved
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChatMessage"
+        "404":
+          description: Room not found
+
+  /chat/rooms/{roomId}/messages/{messageId}:
+    delete:
+      operationId: deleteMessage
+      tags: [chat]
+      summary: Delete a message
+      parameters:
+        - name: roomId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: messageId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+        "404":
+          description: Not found
+
+  # ─── ASSISTANT ────────────────────────────────────────────────────────────
+  /assistant/chat:
+    post:
+      operationId: assistantChat
+      tags: [chat]
+      summary: Send a message (with optional file) to the AI assistant
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AssistantMessageInput"
+      responses:
+        "200":
+          description: AI response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AssistantMessageOutput"
+
+  # ─── STORAGE ──────────────────────────────────────────────────────────────
+  /storage/uploads/request-url:
+    post:
+      tags: [storage]
+      operationId: requestUploadUrl
+      summary: Request a presigned URL for file upload
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UploadUrlRequest"
+      responses:
+        "200":
+          description: Presigned upload URL generated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UploadUrlResponse"
+        "400":
+          description: Invalid request
+        "500":
+          description: Server error
+
+  /storage/objects/{objectPath}:
+    get:
+      tags: [storage]
+      operationId: getStorageObject
+      summary: Serve an uploaded object
+      parameters:
+        - name: objectPath
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Object content
+          content:
+            "*/*":
+              schema:
+                type: string
+                format: binary
+        "404":
+          description: Not found
+
+  /auth/user:
+    get:
+      tags: [Auth]
+      operationId: getCurrentAuthUser
+      summary: Get the currently authenticated user
+      parameters:
+        - $ref: '#/components/parameters/AuthorizationSessionHeader'
+        - $ref: '#/components/parameters/SessionCookie'
+      responses:
+        '200':
+          description: Auth status resolved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthUserEnvelope'
+  /login:
+    get:
+      tags: [Auth]
+      operationId: beginBrowserLogin
+      summary: Start the browser OIDC login flow
+      parameters:
+        - name: returnTo
+          in: query
+          required: false
+          schema: { type: string }
+      responses:
+        '302':
+          description: Redirect to the OIDC authorization endpoint.
+  /callback:
+    get:
+      tags: [Auth]
+      operationId: handleBrowserLoginCallback
+      summary: Complete the browser OIDC login flow
+      parameters:
+        - name: code
+          in: query
+          required: false
+          schema: { type: string }
+        - name: state
+          in: query
+          required: false
+          schema: { type: string }
+        - name: iss
+          in: query
+          required: false
+          schema: { type: string, format: uri }
+      responses:
+        '302':
+          description: Redirect after login.
+  /logout:
+    get:
+      tags: [Auth]
+      operationId: logoutBrowserSession
+      summary: Clear the session and begin OIDC logout
+      parameters:
+        - $ref: '#/components/parameters/AuthorizationSessionHeader'
+        - $ref: '#/components/parameters/SessionCookie'
+      responses:
+        '302':
+          description: Redirect to the OIDC provider logout URL.
+  /mobile-auth/token-exchange:
+    post:
+      tags: [Auth]
+      operationId: exchangeMobileAuthorizationCode
+      summary: Exchange a mobile OIDC code for a session token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MobileTokenExchangeRequest'
+      responses:
+        '200':
+          description: Session created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MobileTokenExchangeSuccess'
+        '400':
+          description: Invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthErrorEnvelope'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthErrorEnvelope'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthErrorEnvelope'
+  /mobile-auth/logout:
+    post:
+      tags: [Auth]
+      operationId: logoutMobileSession
+      summary: Delete a mobile session token
+      parameters:
+        - $ref: '#/components/parameters/AuthorizationSessionHeader'
+      responses:
+        '200':
+          description: Logout processed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LogoutSuccess'
+
+components:
+  parameters:
+    AuthorizationSessionHeader:
+      name: Authorization
+      in: header
+      required: false
+      description: Opaque session token — `Bearer <sid>`.
+      schema: { type: string }
+    SessionCookie:
+      name: sid
+      in: cookie
+      required: false
+      description: Browser session cookie.
+      schema: { type: string }
+  schemas:
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+        - status
+
+    # ─── FUND SCHEMAS ──────────────────────────────────────────────────────
+    Fund:
+      type: object
+      required: [id, nome, tese, ticketMin, ticketMax, segmentos, regioes, nivelRisco, roiMinimo, estagio, createdAt]
+      properties:
+        id:         { type: integer }
+        nome:       { type: string }
+        tese:       { type: string }
+        ticketMin:  { type: number }
+        ticketMax:  { type: number }
+        segmentos:  { type: array, items: { type: string } }
+        regioes:    { type: array, items: { type: string } }
+        nivelRisco: { type: string }
+        roiMinimo:  { type: number }
+        descricao:  { type: ["string", "null"] }
+        estagio:    { type: string }
+        cnpj:       { type: ["string", "null"] }
+        ticker:     { type: ["string", "null"] }
+        relatorioPdfUrl: { type: ["string", "null"] }
+        createdAt:  { type: string }
+
+    FundInput:
+      type: object
+      required: [nome, tese, ticketMin, ticketMax, segmentos, regioes, nivelRisco, roiMinimo, estagio]
+      properties:
+        nome:       { type: string, minLength: 1 }
+        tese:       { type: string, minLength: 1 }
+        ticketMin:  { type: number }
+        ticketMax:  { type: number }
+        segmentos:  { type: array, items: { type: string } }
+        regioes:    { type: array, items: { type: string } }
+        nivelRisco: { type: string }
+        roiMinimo:  { type: number }
+        descricao:  { type: string }
+        estagio:    { type: string }
+        cnpj:       { type: string }
+        ticker:     { type: string }
+        relatorioPdfUrl: { type: string }
+
+    FundPatch:
+      type: object
+      properties:
+        nome:       { type: string }
+        tese:       { type: string }
+        ticketMin:  { type: number }
+        ticketMax:  { type: number }
+        segmentos:  { type: array, items: { type: string } }
+        regioes:    { type: array, items: { type: string } }
+        nivelRisco: { type: string }
+        roiMinimo:  { type: number }
+        descricao:  { type: string }
+        estagio:    { type: string }
+        cnpj:       { type: string }
+        ticker:     { type: string }
+        relatorioPdfUrl: { type: string }
+
+    FundPublicLatest:
+      type: object
+      required: [dataReferencia]
+      properties:
+        dataReferencia:          { type: string }
+        numCotistas:             { type: ["integer", "null"] }
+        valorPatrimonialCota:    { type: ["number", "null"] }
+        patrimonioLiquido:       { type: ["number", "null"] }
+        rentabilidadeMes:        { type: ["number", "null"] }
+        dividendYieldMes:        { type: ["number", "null"] }
+        percentualMaiorCotista:  { type: ["number", "null"] }
+        sourceUrl:               { type: ["string", "null"] }
+        fetchedAt:               { type: string }
+
+    FundPublicHistoryPoint:
+      type: object
+      required: [dataReferencia]
+      properties:
+        dataReferencia:        { type: string }
+        valorPatrimonialCota:  { type: ["number", "null"] }
+        numCotistas:           { type: ["integer", "null"] }
+        dividendYieldMes:      { type: ["number", "null"] }
+        rentabilidadeMes:      { type: ["number", "null"] }
+
+    FundQualitative:
+      type: object
+      properties:
+        perfilRisco:             { type: ["string", "null"] }
+        estrategia:              { type: ["string", "null"] }
+        tipoCotistaDesejado:     { type: ["string", "null"] }
+        focoRendaCrescimento:    { type: ["string", "null"] }
+        preocupacaoVolatilidade: { type: ["string", "null"] }
+        palavrasChave:           { type: array, items: { type: string } }
+        sourceUrl:               { type: ["string", "null"] }
+        extractedAt:             { type: ["string", "null"] }
+
+    FundOffering:
+      type: object
+      required: [id]
+      properties:
+        id:                { type: integer }
+        codigoOferta:      { type: ["string", "null"] }
+        dataInicio:        { type: ["string", "null"] }
+        dataEncerramento:  { type: ["string", "null"] }
+        valorTotal:        { type: ["number", "null"] }
+        publicoAlvo:       { type: ["string", "null"] }
+        exigeQualificado:  { type: ["string", "null"] }
+        perfilEsperado:    { type: ["string", "null"] }
+        sourceUrl:         { type: ["string", "null"] }
+
+    FundPublicData:
+      type: object
+      required: [history, offerings]
+      properties:
+        cnpj:        { type: ["string", "null"] }
+        relatorioPdfUrl: { type: ["string", "null"] }
+        latest:      { oneOf: [ { $ref: "#/components/schemas/FundPublicLatest" }, { type: "null" } ] }
+        qualitative: { oneOf: [ { $ref: "#/components/schemas/FundQualitative" }, { type: "null" } ] }
+        history:     { type: array, items: { $ref: "#/components/schemas/FundPublicHistoryPoint" } }
+        offerings:   { type: array, items: { $ref: "#/components/schemas/FundOffering" } }
+
+    SyncResult:
+      type: object
+      required: [status, rowsUpserted, cnpjsUpdated, yearsProcessed, errors]
+      properties:
+        status:          { type: string }
+        rowsUpserted:    { type: integer }
+        cnpjsUpdated:    { type: integer }
+        yearsProcessed:  { type: array, items: { type: integer } }
+        errors:          { type: array, items: { type: string } }
+
+    SyncLogEntry:
+      type: object
+      required: [id, source, status, startedAt]
+      properties:
+        id:            { type: integer }
+        source:        { type: string }
+        status:        { type: string }
+        cnpjsUpdated:  { type: ["integer", "null"] }
+        rowsUpserted:  { type: ["integer", "null"] }
+        message:       { type: ["string", "null"] }
+        startedAt:     { type: string }
+        finishedAt:    { type: ["string", "null"] }
+
+    SyncStatus:
+      type: object
+      required: [trackedFunds, funds, recent]
+      properties:
+        trackedFunds: { type: integer }
+        funds:
+          type: array
+          items:
+            type: object
+            required: [id, nome]
+            properties:
+              id:   { type: integer }
+              nome: { type: string }
+              cnpj: { type: ["string", "null"] }
+        recent:
+          type: array
+          items: { $ref: "#/components/schemas/SyncLogEntry" }
+
+    ExtractProfileInput:
+      type: object
+      properties:
+        pdfUrl: { type: string, description: "Opcional — se omitido, usa a URL salva no fundo (relatorioPdfUrl)." }
+
+    ExtractProfileResponse:
+      type: object
+      required: [cnpj, profile]
+      properties:
+        cnpj:    { type: string }
+        profile: { $ref: "#/components/schemas/FundQualitative" }
+        discoveredUrl: { type: ["string", "null"], description: "URL recém-descoberta no FNET (se auto-descoberta)." }
+        dataReferencia: { type: ["string", "null"], description: "Data de referência do documento descoberto (ex: 04/2026)." }
+
+    DiscoverRelatorioResponse:
+      type: object
+      required: [url, dataReferencia]
+      properties:
+        url:            { type: string, description: "URL estável do visualizador FNET (visualizarDocumento?id=...)." }
+        documentId:     { type: integer }
+        dataReferencia: { type: string }
+        dataEntrega:    { type: string }
+        tipoDocumento:  { type: string }
+
+    # ─── ASSET SCHEMAS ─────────────────────────────────────────────────────
+    Asset:
+      type: object
+      required: [id, nome, tipoAtivo, valorCaptacao, roiPrevisto, regiao, estagio, createdAt]
+      properties:
+        id:             { type: integer }
+        nome:           { type: string }
+        tipoAtivo:      { type: string }
+        valorCaptacao:  { type: number }
+        roiPrevisto:    { type: number }
+        regiao:         { type: string }
+        estagio:        { type: string }
+        descricao:      { type: ["string", "null"] }
+        garantias:      { type: ["string", "null"] }
+        prazo:          { type: ["integer", "null"] }
+        cnpjSpe:            { type: ["string", "null"] }
+        incorporadora:      { type: ["string", "null"] }
+        vgv:                { type: ["number", "null"] }
+        percentualVendido:  { type: ["number", "null"] }
+        equityAportado:     { type: ["number", "null"] }
+        patrimonioAfetacao: { type: ["boolean", "null"] }
+        statusTerreno:      { type: ["string", "null"] }
+        statusLicenciamento: { type: ["string", "null"] }
+        numUnidades:        { type: ["integer", "null"] }
+        passivosTotais:     { type: ["number", "null"] }
+        recebiveisTotais:   { type: ["number", "null"] }
+        caixaAtual:         { type: ["number", "null"] }
+        cronogramaMeses:    { type: ["integer", "null"] }
+        mesesDecorridos:    { type: ["integer", "null"] }
+        tipoFunding:        { type: ["string", "null"] }
+        createdAt:      { type: string }
+
+    AssetInput:
+      type: object
+      required: [nome, tipoAtivo, valorCaptacao, roiPrevisto, regiao, estagio]
+      properties:
+        nome:           { type: string, minLength: 1 }
+        tipoAtivo:      { type: string }
+        valorCaptacao:  { type: number }
+        roiPrevisto:    { type: number }
+        regiao:         { type: string }
+        estagio:        { type: string }
+        descricao:      { type: string }
+        garantias:      { type: string }
+        prazo:          { type: integer }
+        cnpjSpe:            { type: string }
+        incorporadora:      { type: string }
+        vgv:                { type: number }
+        percentualVendido:  { type: number }
+        equityAportado:     { type: number }
+        patrimonioAfetacao: { type: boolean }
+        statusTerreno:      { type: string }
+        statusLicenciamento: { type: string }
+        numUnidades:        { type: integer }
+        passivosTotais:     { type: number }
+        recebiveisTotais:   { type: number }
+        caixaAtual:         { type: number }
+        cronogramaMeses:    { type: integer }
+        mesesDecorridos:    { type: integer }
+        tipoFunding:        { type: string }
+
+    AssetPatch:
+      type: object
+      properties:
+        nome:           { type: string }
+        tipoAtivo:      { type: string }
+        valorCaptacao:  { type: number }
+        roiPrevisto:    { type: number }
+        regiao:         { type: string }
+        estagio:        { type: string }
+        descricao:      { type: string }
+        garantias:      { type: string }
+        prazo:          { type: integer }
+        cnpjSpe:            { type: string }
+        incorporadora:      { type: string }
+        vgv:                { type: number }
+        percentualVendido:  { type: number }
+        equityAportado:     { type: number }
+        patrimonioAfetacao: { type: boolean }
+        statusTerreno:      { type: string }
+        statusLicenciamento: { type: string }
+        numUnidades:        { type: integer }
+        passivosTotais:     { type: number }
+        recebiveisTotais:   { type: number }
+        caixaAtual:         { type: number }
+        cronogramaMeses:    { type: integer }
+        mesesDecorridos:    { type: integer }
+        tipoFunding:        { type: string }
+
+    CopilotSuggestion:
+      type: object
+      required: [titulo, porQue, categoria, impacto]
+      properties:
+        titulo: { type: string }
+        porQue: { type: string }
+        categoria: { type: string, enum: [estrutura, comercial, documental, financeiro] }
+        impacto: { type: string, enum: [alto, medio, baixo] }
+    CopilotSuggestionsResult:
+      type: object
+      required: [resumo, sugestoes]
+      properties:
+        resumo: { type: string }
+        sugestoes:
+          type: array
+          items: { $ref: "#/components/schemas/CopilotSuggestion" }
+    UnderwritingResult:
+      type: object
+      required: [readinessScore, complianceScore, riskFlags, pendencias, breakdown, recomendacao]
+      properties:
+        readinessScore:   { type: integer, description: "0-100, completeness of structured data" }
+        complianceScore:  { type: integer, description: "0-100, presence of required signals" }
+        riskFlags:        { type: array, items: { type: string } }
+        pendencias:
+          type: array
+          items:
+            type: object
+            required: [campo, descricao, severidade, categoria]
+            properties:
+              campo:      { type: string }
+              descricao:  { type: string }
+              severidade: { type: string, enum: [alta, media, baixa] }
+              categoria:  { type: string, enum: [estrutura, documental, financeiro, comercial] }
+        breakdown:        { type: object, additionalProperties: true }
+        recomendacao:     { type: string, enum: [alta, media, baixa, indefinida] }
+
+    # ─── MATCH SCHEMAS ─────────────────────────────────────────────────────
+    Match:
+      type: object
+      required: [id, fundoId, ativoId, score, similaridade, scoreFinal, createdAt]
+      properties:
+        id:             { type: integer }
+        fundoId:        { type: integer }
+        ativoId:        { type: integer }
+        score:          { type: number, description: "Rule-based logical score (0-100)" }
+        similaridade:   { type: number, description: "Semantic similarity score (0-100)" }
+        scoreFinal:     { type: number, description: "Weighted combined score (0-100)" }
+        motivos:        { type: array, items: { type: string } }
+        pontosFortes:   { type: array, items: { type: string }, description: "Strengths supporting the match" }
+        pontosFracos:   { type: array, items: { type: string }, description: "Weaknesses or concerns about the match" }
+        alertas:        { type: array, items: { type: string }, description: "Hard incompatibilities (e.g. fund thesis says renda but asset is desenvolvimento)" }
+        breakdown:      { type: ["object", "null"], description: "Per-axis score breakdown: {axis: {score, max, nota}}", additionalProperties: true }
+        usouQualitative: { type: boolean, description: "Whether AI-extracted fund profile was used in scoring" }
+        explicacaoAI:   { type: ["string", "null"] }
+        fundo:          { $ref: "#/components/schemas/Fund" }
+        ativo:          { $ref: "#/components/schemas/Asset" }
+        createdAt:      { type: string }
+
+    MatchDetail:
+      type: object
+      required: [id, fundoId, ativoId, score, similaridade, scoreFinal, motivos, pontosFortes, pontosFracos, createdAt]
+      properties:
+        id:             { type: integer }
+        fundoId:        { type: integer }
+        ativoId:        { type: integer }
+        score:          { type: number }
+        similaridade:   { type: number }
+        scoreFinal:     { type: number }
+        motivos:        { type: array, items: { type: string } }
+        pontosFortes:   { type: array, items: { type: string } }
+        pontosFracos:   { type: array, items: { type: string } }
+        alertas:        { type: array, items: { type: string } }
+        breakdown:      { type: ["object", "null"], additionalProperties: true }
+        usouQualitative: { type: boolean }
+        explicacaoAI:   { type: ["string", "null"] }
+        fundo:          { $ref: "#/components/schemas/Fund" }
+        ativo:          { $ref: "#/components/schemas/Asset" }
+        createdAt:      { type: string }
+
+    MatchRequest:
+      type: object
+      required: [ativoId]
+      properties:
+        ativoId:        { type: integer }
+        generateAI:     { type: boolean, description: "Whether to generate AI explanation" }
+
+    # ─── DASHBOARD SCHEMAS ─────────────────────────────────────────────────
+    DashboardStats:
+      type: object
+      required: [totalFunds, totalAssets, totalMatches, avgScore, highCompatibilityCount, captacaoTotal]
+      properties:
+        totalFunds:              { type: integer }
+        totalAssets:             { type: integer }
+        totalMatches:            { type: integer }
+        avgScore:                { type: number }
+        highCompatibilityCount:  { type: integer, description: "Matches with score >= 75" }
+        captacaoTotal:           { type: number, description: "Total capital under management" }
+
+    ActivityItem:
+      type: object
+      required: [id, type, description, createdAt]
+      properties:
+        id:          { type: integer }
+        type:        { type: string, description: "fund_created | asset_created | match_run | high_score" }
+        description: { type: string }
+        entityId:    { type: ["integer", "null"] }
+        entityType:  { type: ["string", "null"] }
+        createdAt:   { type: string }
+
+    ScoreBucket:
+      type: object
+      required: [range, count]
+      properties:
+        range:  { type: string, description: "e.g. 0-25, 26-50, 51-75, 76-100" }
+        count:  { type: integer }
+
+    # ─── NETWORK SCHEMAS ───────────────────────────────────────────────────
+    NetworkBreakdownEstado:
+      type: object
+      required: [estado, total]
+      properties:
+        estado: { type: string }
+        total:  { type: integer }
+
+    NetworkBreakdownSegmento:
+      type: object
+      required: [segmento, total]
+      properties:
+        segmento: { type: string }
+        total:    { type: integer }
+
+    NetworkSummary:
+      type: object
+      required: [totalIncorporadoras, totalEmpreendedores, totalOperacoes, vgvHistoricoTotal, porEstado, porSegmento]
+      properties:
+        totalIncorporadoras: { type: integer }
+        totalEmpreendedores: { type: integer }
+        totalOperacoes:      { type: integer }
+        vgvHistoricoTotal:   { type: number }
+        porEstado:
+          type: array
+          items: { $ref: "#/components/schemas/NetworkBreakdownEstado" }
+        porSegmento:
+          type: array
+          items: { $ref: "#/components/schemas/NetworkBreakdownSegmento" }
+
+    Incorporadora:
+      type: object
+      required: [id, nome, cidade, estado, segmentoFoco, anosAtuacao, opsAtivas, opsEntregues, status]
+      properties:
+        id:            { type: integer }
+        nome:          { type: string }
+        cidade:        { type: string }
+        estado:        { type: string }
+        segmentoFoco:  { type: string }
+        anosAtuacao:   { type: integer }
+        opsAtivas:     { type: integer }
+        opsEntregues:  { type: integer }
+        vgvHistorico:  { type: ["number", "null"] }
+        status:        { type: string }
+
+    Empreendedor:
+      type: object
+      required: [id, nome, cargo, cidade, estado, anosExperiencia, opsEntregues, foco, status]
+      properties:
+        id:                 { type: integer }
+        nome:               { type: string }
+        cargo:              { type: string }
+        cidade:             { type: string }
+        estado:             { type: string }
+        incorporadoraNome:  { type: ["string", "null"] }
+        anosExperiencia:    { type: integer }
+        opsEntregues:       { type: integer }
+        vgvAcumulado:       { type: ["number", "null"] }
+        foco:               { type: string }
+        status:             { type: string }
+
+    # ─── CHAT SCHEMAS ──────────────────────────────────────────────────────
+    ChatRoom:
+      type: object
+      required: [id, title, createdAt, messageCount]
+      properties:
+        id:           { type: integer }
+        title:        { type: string }
+        matchId:      { type: ["integer", "null"] }
+        fundoId:      { type: ["integer", "null"] }
+        ativoId:      { type: ["integer", "null"] }
+        messageCount: { type: integer }
+        lastMessage:
+          type: ["object", "null"]
+          properties:
+            content:   { type: ["string", "null"] }
+            sender:    { type: string }
+            createdAt: { type: string }
+        createdAt:    { type: string }
+
+    ChatRoomInput:
+      type: object
+      required: [title]
+      properties:
+        title:   { type: string, minLength: 1 }
+        matchId: { type: integer }
+        fundoId: { type: integer }
+        ativoId: { type: integer }
+
+    ChatRoomDetail:
+      type: object
+      required: [id, title, createdAt, messages]
+      properties:
+        id:        { type: integer }
+        title:     { type: string }
+        matchId:   { type: ["integer", "null"] }
+        fundoId:   { type: ["integer", "null"] }
+        ativoId:   { type: ["integer", "null"] }
+        messages:
+          type: array
+          items:
+            $ref: "#/components/schemas/ChatMessage"
+        createdAt: { type: string }
+
+    ChatMessage:
+      type: object
+      required: [id, roomId, sender, createdAt]
+      properties:
+        id:           { type: integer }
+        roomId:       { type: integer }
+        sender:       { type: string }
+        content:      { type: ["string", "null"] }
+        fileUrl:      { type: ["string", "null"] }
+        fileName:     { type: ["string", "null"] }
+        fileSize:     { type: ["integer", "null"] }
+        fileType:     { type: ["string", "null"] }
+        createdAt:    { type: string }
+
+    ChatMessageInput:
+      type: object
+      required: [sender]
+      properties:
+        sender:   { type: string, minLength: 1 }
+        content:  { type: string }
+        fileUrl:  { type: string }
+        fileName: { type: string }
+        fileSize: { type: integer }
+        fileType: { type: string }
+
+    AiReplyInput:
+      type: object
+      required: [userMessage]
+      properties:
+        userMessage:
+          type: string
+          minLength: 1
+          description: The user's question or message to the AI
+
+    # ─── ASSISTANT SCHEMAS ─────────────────────────────────────────────────
+    AssistantHistoryEntry:
+      type: object
+      required: [role, content]
+      properties:
+        role:    { type: string }
+        content: { type: string }
+
+    AssistantMessageInput:
+      type: object
+      required: [message]
+      properties:
+        message:
+          type: string
+          description: The user's message or question
+        fileObjectPath:
+          type: string
+          description: GCS object path returned after upload (e.g. /objects/uuid)
+        fileName:
+          type: string
+        fileType:
+          type: string
+        history:
+          type: array
+          items:
+            $ref: "#/components/schemas/AssistantHistoryEntry"
+
+    AssistantActionRecord:
+      type: object
+      properties:
+        id:   { type: integer }
+        nome: { type: string }
+        type: { type: string }
+
+    AssistantTopMatch:
+      type: object
+      properties:
+        id:         { type: integer }
+        score:      { type: number }
+        fundName:   { type: string }
+        assetName:  { type: string }
+        motivos:    { type: array, items: { type: string } }
+
+    AssistantAction:
+      type: object
+      properties:
+        type:      { type: string }
+        record:    { $ref: "#/components/schemas/AssistantActionRecord" }
+        topMatches:
+          type: array
+          items: { $ref: "#/components/schemas/AssistantTopMatch" }
+
+    AssistantMessageOutput:
+      type: object
+      required: [reply]
+      properties:
+        reply:  { type: string }
+        action: { $ref: "#/components/schemas/AssistantAction" }
+
+    # ─── STORAGE SCHEMAS ───────────────────────────────────────────────────
+    UploadUrlRequest:
+      type: object
+      required: [name, size, contentType]
+      properties:
+        name:        { type: string, minLength: 1 }
+        size:        { type: integer, minimum: 1 }
+        contentType: { type: string, minLength: 1 }
+
+    UploadUrlResponse:
+      type: object
+      required: [uploadURL, objectPath]
+      properties:
+        uploadURL:  { type: string }
+        objectPath: { type: string }
+
+    # ─── AUTH SCHEMAS ───────────────────────────────────────────────────────
+    AuthUser:
+      type: object
+      required: [id, email, firstName, lastName, profileImageUrl, role]
+      properties:
+        id: { type: string }
+        email: { type: [string, 'null'], format: email }
+        firstName: { type: [string, 'null'] }
+        lastName: { type: [string, 'null'] }
+        profileImageUrl: { type: [string, 'null'] }
+        role: { type: string, enum: [fundo, ativo, admin] }
+        name: { type: [string, 'null'] }
+        company: { type: [string, 'null'] }
+        cnpj: { type: [string, 'null'] }
+        phone: { type: [string, 'null'] }
+        segment: { type: [string, 'null'] }
+        thesis: { type: [string, 'null'] }
+    AuthUserEnvelope:
+      type: object
+      required: [user]
+      properties:
+        user:
+          oneOf:
+            - $ref: '#/components/schemas/AuthUser'
+            - type: 'null'
+    MobileTokenExchangeRequest:
+      type: object
+      required: [code, code_verifier, redirect_uri, state]
+      properties:
+        code: { type: string, minLength: 1 }
+        code_verifier: { type: string, minLength: 1 }
+        redirect_uri: { type: string, minLength: 1, format: uri }
+        state: { type: string, minLength: 1 }
+        nonce: { type: string, minLength: 1 }
+    MobileTokenExchangeSuccess:
+      type: object
+      required: [token]
+      properties:
+        token: { type: string }
+    LogoutSuccess:
+      type: object
+      required: [success]
+      properties:
+        success: { type: boolean, const: true }
+    AuthErrorEnvelope:
+      type: object
+      required: [error]
+      properties:
+        error: { type: string }
